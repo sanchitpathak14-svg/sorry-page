@@ -18,37 +18,31 @@ margin:0;
 overflow:hidden;
 }
 
-/* Bigger box */
-
 .box{
 background:rgba(0,0,0,0.35);
 padding:60px;
 border-radius:25px;
-max-width:520px;
+max-width:560px;
 position:relative;
 z-index:2;
 }
 
-/* Bigger text */
+h2{
+font-size:32px;
+margin-bottom:15px;
+}
 
 p{
 font-size:22px;
-line-height:1.7;
+line-height:1.6;
 }
 
-h2{
-font-size:32px;
-margin-bottom:20px;
-}
-
-/* Buttons side by side */
+/* button area */
 
 .buttons{
-display:flex;
-justify-content:center;
-gap:20px;
-margin-top:20px;
 position:relative;
+height:140px;
+margin-top:20px;
 }
 
 button{
@@ -57,27 +51,30 @@ font-size:20px;
 border:none;
 border-radius:12px;
 cursor:pointer;
-transition:0.25s;
+position:absolute;
 }
 
 #yes{
 background:#ff4d6d;
 color:white;
+left:35%;
+top:40px;
 }
 
 #no{
 background:white;
 color:black;
-position:relative;
+left:55%;
+top:40px;
 }
 
 #celebration{
 font-size:40px;
-margin-top:25px;
+margin-top:20px;
 display:none;
 }
 
-/* floating hearts */
+/* hearts */
 
 .heart{
 position:fixed;
@@ -86,14 +83,8 @@ pointer-events:none;
 }
 
 @keyframes floatUp{
-0%{
-transform:translateY(100vh);
-opacity:1;
-}
-100%{
-transform:translateY(-10vh);
-opacity:0;
-}
+0%{transform:translateY(100vh);opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
 }
 
 </style>
@@ -114,8 +105,10 @@ Can you forgive me? 🥺❤️
 </p>
 
 <div class="buttons">
+
 <button id="yes" onclick="accepted()">YES ❤️</button>
 <button id="no" onclick="move()">🫣 No</button>
+
 </div>
 
 <p id="response"></p>
@@ -135,38 +128,41 @@ function move(){
 noClicks++;
 
 let btn = document.getElementById("no");
+let msg = document.getElementById("response");
 
-/* first 2 clicks: move randomly nearby */
+/* random movement inside button area */
 
-if(noClicks < 3){
-
-let x = (Math.random()*120)-60;
-let y = (Math.random()*40)-20;
+let x = Math.random()*200 - 100;
+let y = Math.random()*80 - 40;
 
 btn.style.transform = `translate(${x}px,${y}px)`;
 
+/* interactive messages */
+
+if(noClicks === 1){
+msg.innerHTML="Hmm… are you sure about that? 🤨";
 }
 
-/* 3rd click: move next to YES and trigger YES */
+else if(noClicks === 2){
+msg.innerHTML="Think carefully… this might hurt my feelings 🥲";
+}
 
-if(noClicks === 3){
-
-btn.style.transform = "translate(-40px,0px)";
+else if(noClicks === 3){
+msg.innerHTML="Okay okay… I see what you're doing 😑";
 
 setTimeout(()=>{
 accepted();
-},500);
-
+},800);
 }
 
 }
 
 function accepted(){
 
-document.getElementById("response").innerHTML =
+document.getElementById("response").innerHTML=
 "Wait wait… you said yes? 😳❤️<br>Okay… I promise to use my brain next time 😅";
 
-document.getElementById("celebration").style.display = "block";
+document.getElementById("celebration").style.display="block";
 
 document.getElementById("yes").style.display="none";
 document.getElementById("no").style.display="none";
@@ -177,14 +173,14 @@ document.getElementById("no").style.display="none";
 
 setInterval(function(){
 
-const heart = document.createElement("div");
-heart.className = "heart";
+const heart=document.createElement("div");
+heart.className="heart";
 
-const hearts = ["❤️","💓","💖","💗","💕"];
-heart.innerHTML = hearts[Math.floor(Math.random()*hearts.length)];
+const hearts=["❤️","💓","💖","💗","💕"];
+heart.innerHTML=hearts[Math.floor(Math.random()*hearts.length)];
 
-heart.style.left = Math.random()*100 + "vw";
-heart.style.fontSize = (20 + Math.random()*20) + "px";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(20+Math.random()*20)+"px";
 
 document.body.appendChild(heart);
 
