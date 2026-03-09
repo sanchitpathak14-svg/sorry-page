@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,8 +36,6 @@ font-size:22px;
 line-height:1.6;
 }
 
-/* button area */
-
 .buttons{
 position:relative;
 height:150px;
@@ -52,4 +49,152 @@ border:none;
 border-radius:12px;
 cursor:pointer;
 position:absolute;
-transition:0.
+transition:0.25s;
+}
+
+/* initial gap */
+
+#yes{
+background:#ff4d6d;
+color:white;
+left:25%;
+top:40px;
+}
+
+#no{
+background:white;
+color:black;
+left:65%;
+top:40px;
+}
+
+#celebration{
+font-size:40px;
+margin-top:20px;
+display:none;
+}
+
+/* floating hearts */
+
+.heart{
+position:fixed;
+animation:floatUp 6s linear infinite;
+pointer-events:none;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(100vh);opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Sushrita, a small question for you…</h2>
+
+<p>
+I know I made mistakes and probably annoyed you more than I should have 🙈  
+I'm really sorry.  
+I can't change the past… but I promise I'll do better from now on.
+<br><br>
+Can you forgive me? 🥺❤️
+</p>
+
+<div class="buttons">
+
+<button id="yes" onclick="accepted()">YES ❤️</button>
+<button id="no" onclick="move()">🫣 No</button>
+
+</div>
+
+<p id="response"></p>
+
+<div id="celebration">
+🎉🥳💖🎊✨💃
+</div>
+
+</div>
+
+<script>
+
+let noClicks = 0;
+
+function move(){
+
+noClicks++;
+
+let btn = document.getElementById("no");
+let msg = document.getElementById("response");
+
+/* move button randomly in larger space */
+
+let x = Math.random()*220 - 110;
+let y = Math.random()*90 - 45;
+
+btn.style.transform = `translate(${x}px,${y}px)`;
+
+/* interactive messages */
+
+if(noClicks === 1){
+msg.innerHTML="Hmm… are you sure about that? 🤨";
+}
+
+else if(noClicks === 2){
+msg.innerHTML="Think carefully… this might hurt my feelings 🥲";
+}
+
+else if(noClicks === 3){
+
+msg.innerHTML="Hmm I know what you are doing 😏<br>Now what will you do?";
+
+btn.innerHTML="Okay fine, Yes 😌";
+
+/* clicking it now acts as YES */
+
+btn.onclick = accepted;
+
+}
+
+}
+
+function accepted(){
+
+document.getElementById("response").innerHTML=
+"Yaaayyyyy!! 🥳🎉❤️<br>That's my girl! 😌💖<br>I love you so much Sushrita 😘💕";
+
+document.getElementById("celebration").style.display="block";
+
+document.getElementById("yes").style.display="none";
+document.getElementById("no").style.display="none";
+
+}
+
+/* floating hearts */
+
+setInterval(function(){
+
+const heart=document.createElement("div");
+heart.className="heart";
+
+const hearts=["❤️","💓","💖","💗","💕"];
+heart.innerHTML=hearts[Math.floor(Math.random()*hearts.length)];
+
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(20+Math.random()*20)+"px";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},6000);
+
+},500);
+
+</script>
+
+</body>
+</html>
