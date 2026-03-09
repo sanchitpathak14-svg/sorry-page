@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,8 +53,6 @@ position:absolute;
 transition:0.25s;
 }
 
-/* initial gap */
-
 #yes{
 background:#ff4d6d;
 color:white;
@@ -85,6 +84,26 @@ pointer-events:none;
 @keyframes floatUp{
 0%{transform:translateY(100vh);opacity:1;}
 100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* explosion hearts */
+
+.burst{
+position:fixed;
+font-size:24px;
+pointer-events:none;
+animation:burst 1.5s forwards;
+}
+
+@keyframes burst{
+0%{
+transform:translate(0,0) scale(1);
+opacity:1;
+}
+100%{
+transform:translate(var(--x),var(--y)) scale(1.8);
+opacity:0;
+}
 }
 
 </style>
@@ -127,33 +146,29 @@ function move(){
 
 noClicks++;
 
-let btn = document.getElementById("no");
-let msg = document.getElementById("response");
+let btn=document.getElementById("no");
+let msg=document.getElementById("response");
 
-/* move button randomly */
+let x=Math.random()*220-110;
+let y=Math.random()*90-45;
 
-let x = Math.random()*220 - 110;
-let y = Math.random()*90 - 45;
+btn.style.transform=`translate(${x}px,${y}px)`;
 
-btn.style.transform = `translate(${x}px,${y}px)`;
-
-/* interactive messages */
-
-if(noClicks === 1){
+if(noClicks===1){
 msg.innerHTML="Hmm… are you sure about that? 🤨";
 }
 
-else if(noClicks === 2){
+else if(noClicks===2){
 msg.innerHTML="Think carefully… this might hurt my feelings 🥲";
 }
 
-else if(noClicks === 3){
+else if(noClicks===3){
 
 msg.innerHTML="Hmm I know what you are doing 😏<br>Now what will you do?";
 
 btn.innerHTML="Okay fine, Yes 😌";
 
-btn.onclick = accepted;
+btn.onclick=accepted;
 
 }
 
@@ -168,6 +183,31 @@ document.getElementById("celebration").style.display="block";
 
 document.getElementById("yes").style.display="none";
 document.getElementById("no").style.display="none";
+
+/* heart explosion */
+
+for(let i=0;i<25;i++){
+
+let heart=document.createElement("div");
+heart.className="burst";
+heart.innerHTML="❤️";
+
+let x=(Math.random()*400)-200;
+let y=(Math.random()*400)-200;
+
+heart.style.setProperty("--x",x+"px");
+heart.style.setProperty("--y",y+"px");
+
+heart.style.left="50%";
+heart.style.top="50%";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},1500);
+
+}
 
 }
 
